@@ -11,10 +11,10 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-  task:
-    scheduling:
-      pool:
-        size: 5
+ # task:
+   # scheduling:
+    #  pool:
+     #   size: 5
 
 chron:
   timeMs: "*/1 * * * * ?"

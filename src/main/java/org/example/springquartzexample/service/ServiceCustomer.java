@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @EnableScheduling
-//@EnableAsync //для выделения новых потоков
+@EnableAsync //для выделения новых потоков
 public class ServiceCustomer {
 
     private final CustomerRepo customerRepository;
@@ -43,38 +43,40 @@ public class ServiceCustomer {
      заходим в метод,ждем 3 сек,выходим из метода
      ждем 1 секунуду и начинаем все сначала
     */
-   @Scheduled(fixedDelayString = "${fixedDelay.time}")
+ /*  @Scheduled(fixedDelayString = "${fixedDelay.time}")
     public void quartzMethod() throws InterruptedException {
-        log.info("Job is running");
+        log.info("Delay is running");
         Thread.sleep(3000);
-        log.info("Job is finishing");
+        log.info("Delay is finishing");
 
     }
 
-  /* fixedRate = 1000
+  *//* fixedRate = 1000
    заходим в метод,ждем 3 сек,выходим из метода
-   сразу начинаем все сначала! не дожидаяс 1 секунды т.к работа метода больше чем время ожидания*/
+   сразу начинаем все сначала! не дожидаяс 1 секунды т.к работа метода больше чем время ожидания*//*
     @Scheduled(fixedRateString = "${fixedRate.time}")
     public void quartzRateMethod() throws InterruptedException {
-        log.info("Job is running");
+        log.info("Rate is running");
         Thread.sleep(3000);
-        log.info("Job is finishing");
+        log.info("Rate is finishing");
 
-    }
+    }*/
 
 
    /* fixedRate = 1000
    нужен для распаралеливания 1 задачи(выполняется в отдельном потоке)
     т.к время ожидания 1 сек а работа 3 сек то он каждую секунду будет создавать новый поток
+    тоесть теперь если прошла секунда то сразу создасться новый поток(как было сказано) и твое условие выполнится
+    а в примере выше fixedrate если прошла секунда то мы все ровно должны ждать окончания метода а тут не ждем сразу создаем новый поток
   */
-  /*  @Scheduled(fixedRateString = "${fixedRate.time}",initialDelay = 100)
+    @Scheduled(fixedRateString = "${fixedRate.time}",initialDelay = 100)
     @Async
-    public void quartzMethod() throws InterruptedException {
+    public void asyncMethod() throws InterruptedException {
         log.info("Job is running");
         Thread.sleep(3000);
         log.info("Job is finishing");
 
-    }*/
+    }
 
     /*
     Распаралелливание нескольких задач
